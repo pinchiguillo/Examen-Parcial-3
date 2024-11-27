@@ -11,9 +11,9 @@
 
 // Enumeración para los tipos de trabajadores
 enum class WorkerType {
-    Engineer,
-    Manager,
-    Technician
+    CEO,
+    AGENCY,
+    GENERIC
 };
 
 class Worker {

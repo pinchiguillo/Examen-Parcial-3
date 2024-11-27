@@ -49,9 +49,9 @@ void Worker::Update() {
 void Worker::displayWorkerInfo() const {
     std::cout << "Worker Type: ";
     switch (type) {
-        case WorkerType::Engineer: std::cout << "Engineer"; break;
-        case WorkerType::Manager: std::cout << "Manager"; break;
-        case WorkerType::Technician: std::cout << "Technician"; break;
+        case WorkerType::CEO: std::cout << "CEO"; break;
+        case WorkerType::AGENCY: std::cout << "AGENCY"; break;
+        case WorkerType::GENERIC: std::cout << "GENERIC"; break;
     }
     std::cout << std::endl;
 
