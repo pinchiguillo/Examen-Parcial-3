@@ -28,16 +28,24 @@ bool Worker::getState() const {
 bool Worker::assignTask(const std::shared_ptr<Task>& task) {
     if (!task) {
         std::cerr << "Error: Task cannot be null." << std::endl;
+
         return false;
     }
 
-    if (specific_task) {
-        // Lógica adicional para manejar tareas específicas en el futuro
-        std::cout << "Worker only accepts specific tasks. Assigning task: " << task << std::endl;
+    if (task->getWorkerType() != type) {
+        std::cerr << "Error: Worker type does not match task requirements." << std::endl;
+
+        return false;
+    }
+
+    if (getState()) {
+        std::cerr << "Error: Worker already has a task assigned." << std::endl;
+
+        return false;
     }
 
     currentTask = task;
-    std::cout << "Task assigned: " << task << std::endl;
+    task->setWorker(this);
     return true;
 }
 
@@ -61,7 +69,7 @@ void Worker::displayWorkerInfo() const {
     std::cout << "Specific Task Only: " << (specific_task ? "Yes" : "No") << std::endl;
 
     if (currentTask) {
-        std::cout << "Current Task: " << currentTask << std::endl;
+        std::cout << "Current Task: " << currentTask->getName() << std::endl;
     } else {
         std::cout << "No current task assigned." << std::endl;
     }
