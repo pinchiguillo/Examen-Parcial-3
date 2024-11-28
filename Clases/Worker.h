@@ -39,6 +39,9 @@ public:
 
     // Mostrar información del trabajador
     void displayWorkerInfo() const;
+
+    std::string get_type() const;
+
 };
 
 

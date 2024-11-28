@@ -83,3 +83,12 @@ void Worker::displayWorkerInfo() const {
         std::cout << "No current task assigned." << std::endl;
     }
 }
+
+std::string Worker::get_type() const {
+    switch (type) {
+        case WorkerType::CEO: return "CEO";
+        case WorkerType::AGENCY: return "AGENCY";
+        case WorkerType::GENERIC: return "GENERIC";
+        default: return "UNKNOWN";
+    }
+}

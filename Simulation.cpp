@@ -51,40 +51,46 @@ int Simulate() {
 
     // Mientras haya tareas incompletas
     while (!allTasksCompleted) {
-        allTasksCompleted = true; // Suponemos que todas están completas al inicio de cada iteración
+        allTasksCompleted = true; // Suponemos que todas las tareas están completas al inicio de cada iteración
+        time++; // Incrementar el tiempo simulado
 
+        //std::cout << "--------------------------------" << std::endl;
+        //std::cout << "Tiempo: " << time << std::endl;
+
+        // Intentar asignar tareas a los trabajadores disponibles
         for (auto& worker : workers) {
-            if (!worker.getState()) {
-
+            if (!worker.getState()) { // Si el trabajador está libre
                 for (auto& task : tasks) {
                     if (task->can_be_done() && !task->isCompleted() && !task->getWorker()) {
-
                         if (worker.assignTask(task)) {
-                            cout << "Tarea: " << task->getName() << " - Asignada a trabajador" << endl;
-                            break;
+                            std::cout << "--------------------------------" << std::endl;
+                            std::cout << "Tiempo: " << time << std::endl;
+                            std::cout << "Tarea: " << task->getName() << " - Asignada a trabajador: " << worker.get_type() << std::endl;
+                            break; // Asignar solo una tarea al trabajador
                         }
                     }
                 }
             }
-            worker.Update();
-
         }
 
-        for (auto& task : tasks) {
+        // Progresar el trabajo de todos los trabajadores
+        for (auto& worker : workers) {
+            worker.Update();
+        }
+
+        // Verificar si todas las tareas están completas
+        for (const auto& task : tasks) {
             if (!task->isCompleted()) {
-                allTasksCompleted = false;
+                allTasksCompleted = false; // Si al menos una tarea no está completa, seguimos
             }
         }
-
-
-        time++; // Incrementar el tiempo simulado
     }
 
-    cout << "--------------------------------" << endl;
-    for (auto& worker : workers) {
-        worker.displayWorkerInfo();
-        cout << "===" << endl;
-    }
+    //cout << "--------------------------------" << endl;
+    //for (auto& worker : workers) {
+    //    worker.displayWorkerInfo();
+    //    cout << "===" << endl;
+    //}
 
     return time;
 }
