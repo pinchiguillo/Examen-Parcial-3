@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 std::vector<std::shared_ptr<Task>> Load_Preset() {
     std::vector<std::shared_ptr<Task>> tasks;
@@ -57,10 +58,16 @@ int Simulate() {
         //std::cout << "--------------------------------" << std::endl;
         //std::cout << "Tiempo: " << time << std::endl;
 
+        // Ordenar tareas por duración ascendente (las más rápidas primero)
+        std::vector<std::shared_ptr<Task>> sorted_tasks = tasks;
+        std::sort(sorted_tasks.begin(), sorted_tasks.end(), [](const std::shared_ptr<Task>& a, const std::shared_ptr<Task>& b) {
+            return a->getDuration() < b->getDuration();
+        });
+
         // Intentar asignar tareas a los trabajadores disponibles
         for (auto& worker : workers) {
             if (!worker.getState()) { // Si el trabajador está libre
-                for (auto& task : tasks) {
+                for (auto& task : sorted_tasks) {
                     if (task->can_be_done() && !task->isCompleted() && !task->getWorker()) {
                         if (worker.assignTask(task)) {
                             std::cout << "--------------------------------" << std::endl;
@@ -85,6 +92,7 @@ int Simulate() {
             }
         }
     }
+
 
     //cout << "--------------------------------" << endl;
     //for (auto& worker : workers) {
