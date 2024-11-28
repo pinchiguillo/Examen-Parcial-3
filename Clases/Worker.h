@@ -9,12 +9,12 @@
 #include <memory>
 #include "task.h" // Incluye la definición de la clase Task
 
+#include "WorkerType.h" // Incluye la definición de WorkerType
+
+class Task; // Declaración anticipada para evitar dependencias circulares
+
 // Enumeración para los tipos de trabajadores
-enum class WorkerType {
-    CEO,
-    AGENCY,
-    GENERIC
-};
+
 
 class Worker {
 private:
@@ -32,7 +32,7 @@ public:
 
     // Métodos relacionados con tareas
     bool getState() const;                 // Activo solo si tiene tarea
-    void assignTask(const std::shared_ptr<Task>& task);
+    bool assignTask(const std::shared_ptr<Task>& task);
 
     // Actualizar el estado del trabajador (vacío por ahora)
     void Update();
