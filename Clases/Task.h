@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include "worker.h" // Incluye la definición de Worker y WorkerType
+#include "WorkerType.h" // Incluye la definición de WorkerType
 
 class Worker; // Declaración anticipada para evitar dependencias circulares
 

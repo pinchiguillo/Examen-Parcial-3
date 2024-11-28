@@ -3,6 +3,8 @@
 //
 
 #include "Task.h"
+#include "Worker.h" // Incluye la definición de Worker y WorkerType
+#include "WorkerType.h"
 
 #include <iostream>
 #include <stdexcept> // Para manejar excepciones

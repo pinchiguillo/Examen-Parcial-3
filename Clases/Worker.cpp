@@ -25,10 +25,10 @@ bool Worker::getState() const {
 }
 
 // Asignar una tarea al trabajador
-void Worker::assignTask(const std::shared_ptr<Task>& task) {
+bool Worker::assignTask(const std::shared_ptr<Task>& task) {
     if (!task) {
         std::cerr << "Error: Task cannot be null." << std::endl;
-        return;
+        return false;
     }
 
     if (specific_task) {
@@ -38,6 +38,7 @@ void Worker::assignTask(const std::shared_ptr<Task>& task) {
 
     currentTask = task;
     std::cout << "Task assigned: " << task << std::endl;
+    return true;
 }
 
 // Actualizar el estado del trabajador (implementación futura)
