@@ -49,6 +49,9 @@ void Task::Update() {
     if (remaining_time > 0) {
         remaining_time--; // Reducir el tiempo restante
     }
+    else {
+        std::cout << "Tarea: " << name << " - Completada" << std::endl;
+    }
 }
 
 // Verificar si la tarea está completa

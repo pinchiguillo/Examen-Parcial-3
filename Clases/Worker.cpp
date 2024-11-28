@@ -33,7 +33,7 @@ bool Worker::assignTask(const std::shared_ptr<Task>& task) {
     }
 
     if (task->getWorkerType() != type) {
-        std::cerr << "Error: Worker type does not match task requirements." << std::endl;
+        //std::cerr << "Error: Worker type does not match task requirements." << std::endl;
 
         return false;
     }
@@ -52,6 +52,15 @@ bool Worker::assignTask(const std::shared_ptr<Task>& task) {
 // Actualizar el estado del trabajador (implementación futura)
 void Worker::Update() {
     // Este método se implementará en el futuro según los requisitos.
+
+    if (currentTask) {
+        currentTask->Update();
+    }
+
+    if (currentTask && currentTask->isCompleted()) {
+        currentTask = nullptr;
+    }
+
 }
 
 // Mostrar información del trabajador
