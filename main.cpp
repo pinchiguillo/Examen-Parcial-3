@@ -1,42 +1,45 @@
-/******************************************************************************
-
-Welcome to GDB Online.
-GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
-C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
-Code, Compile, Run and Debug online from anywhere in world.
-
-*******************************************************************************/
 #include <iostream>
-#include <string.h>
-
-#include "launcher.h"
-
-
+#include <vector>
+#include <memory>
+#include "crud/crud.h"
+#include "Clases/Task.h"
+#include "Clases/Worker.h"
+#include "Clases/WorkerType.h"
 
 int main() {
+    // Crear base de datos externa
+    std::vector<std::shared_ptr<Task>> taskDB;
+    std::vector<std::shared_ptr<Worker>> workerDB;
 
+    // Instanciar CRUD
+    CRUD<std::shared_ptr<Task>> taskCRUD(taskDB);
+    CRUD<std::shared_ptr<Worker>> workerCRUD(workerDB);
 
+    // Crear tareas
+    auto task1 = std::make_shared<Task>("Planificación", 5, WorkerType::CEO);
+    auto task2 = std::make_shared<Task>("Marketing", 3, WorkerType::AGENCY);
+    taskCRUD.crear(task1);
+    taskCRUD.crear(task2);
 
-    return 0;
-}
+    // Crear trabajadores
+    auto worker1 = std::make_shared<Worker>(WorkerType::CEO);
+    auto worker2 = std::make_shared<Worker>(WorkerType::AGENCY);
+    workerCRUD.crear(worker1);
+    workerCRUD.crear(worker2);
 
+    // Listar tareas
+    auto tasks = taskCRUD.listar();
+    std::cout << "\n=== Lista de Tareas ===\n";
+    for (size_t i = 0; i < tasks.size(); ++i) {
+        std::cout << i << ": " << tasks[i].get() << "\n"; // Imprime la dirección de memoria
+    }
 
-
-int mainf() {
-    Tarea ta ("A", "Reserva vuelo", 20);
-    Tarea td ("D", "Prepara billete", 10);
-    
-    std::cout<<"Hello World" << "\n";
-    //cout << ta.getId() << " " << ta.getDesc() << " " << to_string(ta.getDuracion()) << "\n";
-    cout << ta.toString();
-    cout << td.toString();
-    
-    Actor agencia("AG", "Agencia viajes");
-    agencia.addTarea(ta);
-    agencia.addTarea(td);
-    
-    cout << td.toString();
-    
+    // Listar trabajadores
+    auto workers = workerCRUD.listar();
+    std::cout << "\n=== Lista de Trabajadores ===\n";
+    for (size_t i = 0; i < workers.size(); ++i) {
+        std::cout << i << ": " << workers[i].get() << "\n"; // Imprime la dirección de memoria
+    }
 
     return 0;
 }
