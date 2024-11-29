@@ -22,7 +22,7 @@ std::vector<std::shared_ptr<Task>> Load_Preset() {
     tasks.push_back(std::make_shared<Task>("Llevar el billete a la oficina", 10, std::vector<std::shared_ptr<Task>>{tasks[4]})); // tasks[5]
     tasks.push_back(std::make_shared<Task>("Recoger las maletas de casa", 20, std::vector<std::shared_ptr<Task>>{tasks[2]})); // tasks[6]
     tasks.push_back(std::make_shared<Task>("Llevar maletas a la oficina", 25, std::vector<std::shared_ptr<Task>>{tasks[6]})); // tasks[7]
-    tasks.push_back(std::make_shared<Task>("Conversación sobre documentos requeridos", 35, std::vector<std::shared_ptr<Task>>{tasks[5]})); // tasks[8]
+    tasks.push_back(std::make_shared<Task>("Conversación sobre documentos requeridos", 35, WorkerType::CEO)); // tasks[8]
     tasks.push_back(std::make_shared<Task>("Dictar instrucciones para ausencia", 25, WorkerType::CEO)); // tasks[9]
     tasks.push_back(std::make_shared<Task>("Reunir documentos", 15, std::vector<std::shared_ptr<Task>>{tasks[8]})); // tasks[10]
     tasks.push_back(std::make_shared<Task>("Organizar documentos", 5, std::vector<std::shared_ptr<Task>>{tasks[10]})); // tasks[11]
@@ -42,7 +42,6 @@ int Simulate() {
         Worker(WorkerType::AGENCY),
         Worker(WorkerType::GENERIC),
         Worker(WorkerType::GENERIC),
-        Worker(WorkerType::GENERIC),
         Worker(WorkerType::GENERIC)
     };
 
@@ -50,29 +49,22 @@ int Simulate() {
     int time = 0;
     bool allTasksCompleted = false;
 
+
     // Mientras haya tareas incompletas
     while (!allTasksCompleted) {
         allTasksCompleted = true; // Suponemos que todas las tareas están completas al inicio de cada iteración
         time++; // Incrementar el tiempo simulado
 
-        //std::cout << "--------------------------------" << std::endl;
-        //std::cout << "Tiempo: " << time << std::endl;
-
-        // Ordenar tareas por duración ascendente (las más rápidas primero)
-        std::vector<std::shared_ptr<Task>> sorted_tasks = tasks;
-        std::sort(sorted_tasks.begin(), sorted_tasks.end(), [](const std::shared_ptr<Task>& a, const std::shared_ptr<Task>& b) {
-            return a->getDuration() < b->getDuration();
-        });
-
         // Intentar asignar tareas a los trabajadores disponibles
         for (auto& worker : workers) {
             if (!worker.getState()) { // Si el trabajador está libre
-                for (auto& task : sorted_tasks) {
+                for (auto& task : tasks) {
                     if (task->can_be_done() && !task->isCompleted() && !task->getWorker()) {
                         if (worker.assignTask(task)) {
                             std::cout << "--------------------------------" << std::endl;
                             std::cout << "Tiempo: " << time << std::endl;
-                            std::cout << "Tarea: " << task->getName() << " - Asignada a trabajador: " << worker.get_type() << std::endl;
+                            std::cout << "Tarea: " << task->getName() << " - Asignada a trabajador: "
+                                      << worker.get_type() << " | " << &worker << std::endl;
                             break; // Asignar solo una tarea al trabajador
                         }
                     }
@@ -92,13 +84,6 @@ int Simulate() {
             }
         }
     }
-
-
-    //cout << "--------------------------------" << endl;
-    //for (auto& worker : workers) {
-    //    worker.displayWorkerInfo();
-    //    cout << "===" << endl;
-    //}
 
     return time;
 }
