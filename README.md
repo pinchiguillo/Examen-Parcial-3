@@ -2,6 +2,8 @@
 
 [Link del repositorio](https://github.com/pinchiguillo/Examen-Parcial-3)
 
+[Ir a solución](#resolucion)
+
 ## Enunciado del Problema
 
 Ustedes son Project Managers en una empresa internacional. Reciben una llamada urgente de un alto ejecutivo, informándoles que el CEO de la compañía ha aterrizado en Barcelona desde Estados Unidos y tiene una reunión crucial para las 19:30 en la ciudad. Sin embargo, el ejecutivo cuenta con solo 100 minutos antes de que cierre la facturación para su vuelo desde Madrid a Barcelona.
